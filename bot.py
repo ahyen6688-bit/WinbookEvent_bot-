@@ -137,6 +137,9 @@ async def sendnow(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # =========================
 async def main():
     application = ApplicationBuilder().token(BOT_TOKEN).build()
+        # bảo đảm bot không còn webhook để gây conflict
+    await application.initialize()
+    await application.bot.delete_webhook(drop_pending_updates=True)
 
     application.bot_data["i"] = 0  # init index
 

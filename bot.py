@@ -167,7 +167,34 @@ async def main():
     appTG.job_queue.run_repeating(post_job, interval=DELAY, first=5)
 
     print("BOT RUNNING…")
+    # run_polling is a coroutine; we just await it inside main()
     await appTG.run_polling()
 
+# =========================
+# SAFE ENTRYPOINT (KHÔNG DÙNG asyncio.run trực tiếp)
+# =========================
 if __name__ == "__main__":
-    asyncio.run(main())
+    loop = None
+    try:
+        loop = asyncio.get_event_loop()
+    except RuntimeError:
+        # If no event loop, create a new one
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
+    if loop.is_running():
+        # Nếu đã có event loop (Render hoặc môi trường khác), schedule main như task
+        loop.create_task(main())
+        # Không đóng loop — giữ tiến trình sống bằng cách chặn chủ động nhỏ
+        # (nếu môi trường của bạn tự giữ tiến trình, dòng dưới có thể không cần)
+        try:
+            # chờ vô hạn, nhưng cho phép Ctrl+C ngắt
+            loop.run_forever()
+        except KeyboardInterrupt:
+            pass
+    else:
+        # Nếu chưa có loop chạy, chạy bình thường
+        try:
+            loop.run_until_complete(main())
+        except KeyboardInterrupt:
+            pass

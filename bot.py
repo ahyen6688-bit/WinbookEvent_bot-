@@ -1,8 +1,11 @@
-from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
-from telegram.ext import Updater, CommandHandler
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
+from telegram.ext import (
+    ApplicationBuilder, CommandHandler, ContextTypes
+)
 from flask import Flask
 from threading import Thread
 import traceback
+import asyncio
 
 # =========================
 # CONFIG
@@ -85,7 +88,7 @@ images = [
 ]
 
 # =========================
-# MENU
+# MENU  (GIỮ NGUYÊN)
 # =========================
 menu = InlineKeyboardMarkup([
     [
@@ -97,7 +100,7 @@ menu = InlineKeyboardMarkup([
 ])
 
 # =========================
-# FLASK
+# FLASK SERVER
 # =========================
 app = Flask(__name__)
 
@@ -113,12 +116,12 @@ def run_flask():
 # =========================
 # JOB AUTO POST
 # =========================
-def post_job(context):
+async def post_job(context: ContextTypes.DEFAULT_TYPE):
     try:
-        idx = context.job.context["i"]
+        idx = context.application.bot_data["i"]
         data = images[idx]
 
-        context.bot.send_photo(
+        await context.bot.send_photo(
             chat_id=CHAT_ID,
             photo=data["img"],
             caption=data["cap"],
@@ -127,49 +130,44 @@ def post_job(context):
 
         print("Đã gửi ảnh số:", idx+1)
 
-        context.job.context["i"] = (idx + 1) % len(images)
+        context.application.bot_data["i"] = (idx + 1) % len(images)
+
     except Exception:
         print(traceback.format_exc())
 
 # =========================
 # COMMANDS
 # =========================
-def start(update, context):
-    update.message.reply_text("Bot đang chạy!", reply_markup=menu)
+async def start(update, context):
+    await update.message.reply_text("Bot đang chạy!", reply_markup=menu)
 
-def sendnow(update, context):
-    idx = context.bot_data.get("i", 0)
+async def sendnow(update, context):
+    idx = context.application.bot_data["i"]
     data = images[idx]
-    update.message.reply_photo(
+
+    await update.message.reply_photo(
         photo=data["img"],
         caption=data["cap"],
         reply_markup=menu
     )
 
 # =========================
-# MAIN
+# MAIN (ĐÃ FIX LỖI Updater)
 # =========================
-def main():
+async def main():
     Thread(target=run_flask, daemon=True).start()
 
-    updater = Updater(BOT_TOKEN, use_context=True)
-    dp = updater.dispatcher
+    appTG = ApplicationBuilder().token(BOT_TOKEN).build()
 
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("sendnow", sendnow))
+    appTG.bot_data["i"] = 0
 
-    updater.bot_data["i"] = 0
+    appTG.add_handler(CommandHandler("start", start))
+    appTG.add_handler(CommandHandler("sendnow", sendnow))
 
-    updater.job_queue.run_repeating(
-        post_job,
-        interval=DELAY,
-        first=5,
-        context={"i": 0}
-    )
+    appTG.job_queue.run_repeating(post_job, interval=DELAY, first=5)
 
     print("BOT RUNNING…")
-    updater.start_polling()
-    updater.idle()
+    await appTG.run_polling()
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

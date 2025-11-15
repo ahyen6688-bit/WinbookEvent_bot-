@@ -6,6 +6,7 @@ from flask import Flask
 from threading import Thread
 import traceback
 import asyncio
+import time
 
 # =========================
 # CONFIG
@@ -114,26 +115,37 @@ def run_flask():
     app.run(host="0.0.0.0", port=port)
 
 # =========================
-# JOB AUTO POST
+# HELPER: gửi ảnh (dùng app.bot trực tiếp)
 # =========================
-async def post_job(context: ContextTypes.DEFAULT_TYPE):
+async def send_image_by_index(app_obj, idx):
     try:
-        idx = context.application.bot_data["i"]
         data = images[idx]
-
-        await context.bot.send_photo(
+        await app_obj.bot.send_photo(
             chat_id=CHAT_ID,
             photo=data["img"],
             caption=data["cap"],
             reply_markup=menu
         )
-
-        print("Đã gửi ảnh số:", idx+1)
-
-        context.application.bot_data["i"] = (idx + 1) % len(images)
-
+        print(f"Đã gửi ảnh số: {idx+1} tại {time.strftime('%Y-%m-%d %H:%M:%S')}")
     except Exception:
         print(traceback.format_exc())
+
+# =========================
+# BACKGROUND AUTO POST (THAY THẾ job_queue)
+# =========================
+async def auto_poster(app_obj):
+    # Gửi lần đầu sau 5s (giống behavior trước)
+    await asyncio.sleep(5)
+    while True:
+        try:
+            idx = app_obj.bot_data.get("i", 0)
+            await send_image_by_index(app_obj, idx)
+            app_obj.bot_data["i"] = (idx + 1) % len(images)
+        except Exception:
+            print("Lỗi khi auto_poster:")
+            print(traceback.format_exc())
+        # chờ DELAY giây rồi lặp
+        await asyncio.sleep(DELAY)
 
 # =========================
 # COMMANDS
@@ -142,7 +154,7 @@ async def start(update, context):
     await update.message.reply_text("Bot đang chạy!", reply_markup=menu)
 
 async def sendnow(update, context):
-    idx = context.application.bot_data["i"]
+    idx = context.application.bot_data.get("i", 0)
     data = images[idx]
 
     await update.message.reply_photo(
@@ -152,22 +164,27 @@ async def sendnow(update, context):
     )
 
 # =========================
-# MAIN (ĐÃ FIX LỖI Updater)
+# MAIN (ĐÃ FIX: không dùng job_queue)
 # =========================
 async def main():
     Thread(target=run_flask, daemon=True).start()
 
     appTG = ApplicationBuilder().token(BOT_TOKEN).build()
 
+    # khởi tạo index
     appTG.bot_data["i"] = 0
 
+    # handlers
     appTG.add_handler(CommandHandler("start", start))
     appTG.add_handler(CommandHandler("sendnow", sendnow))
 
-    appTG.job_queue.run_repeating(post_job, interval=DELAY, first=5)
+    # tạo background task auto_poster (thay job_queue.run_repeating)
+    # schedule task sau khi appTG khởi chạy
+    # ta start run_polling as coroutine, và song song tạo task auto_poster
+    # để dễ quản lý, tạo task trước khi run_polling và nó sẽ chạy trên cùng loop
+    asyncio.create_task(auto_poster(appTG))
 
     print("BOT RUNNING…")
-    # run_polling is a coroutine; we just await it inside main()
     await appTG.run_polling()
 
 # =========================
@@ -178,22 +195,16 @@ if __name__ == "__main__":
     try:
         loop = asyncio.get_event_loop()
     except RuntimeError:
-        # If no event loop, create a new one
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
 
     if loop.is_running():
-        # Nếu đã có event loop (Render hoặc môi trường khác), schedule main như task
         loop.create_task(main())
-        # Không đóng loop — giữ tiến trình sống bằng cách chặn chủ động nhỏ
-        # (nếu môi trường của bạn tự giữ tiến trình, dòng dưới có thể không cần)
         try:
-            # chờ vô hạn, nhưng cho phép Ctrl+C ngắt
             loop.run_forever()
         except KeyboardInterrupt:
             pass
     else:
-        # Nếu chưa có loop chạy, chạy bình thường
         try:
             loop.run_until_complete(main())
         except KeyboardInterrupt:

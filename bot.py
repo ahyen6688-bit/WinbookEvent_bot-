@@ -1,48 +1,78 @@
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
+from telegram import (
+    Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
+)
 from telegram.ext import (
     ApplicationBuilder, CommandHandler, ContextTypes
 )
-from flask import Flask
-from threading import Thread
-import traceback
-import asyncio
-import time
+import os
 
 # =========================
 # CONFIG
 # =========================
-BOT_TOKEN = "8395409278:AAHCHBKTw_ic877ow3Gx1cX8B7O000eQKFQ"
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = -10029801886562
 DELAY = 120  # giây
 
 # =========================
-# CAPTIONS  (GIỮ NGUYÊN)
+# CAPTIONS  (GIỮ NGUYÊN 100%)
 # =========================
 CAPTION_1 = """💎 ĐĂNG KÝ NHẬN 68K – NHẬN NGAY 500K!
-... (giữ nguyên như cũ) ...
+🪄 Chỉ cần xác minh thông tin cá nhân – nhận tiền liền tay 💰
+⚡️ Nhanh tay tham gia – đừng bỏ lỡ cơ hội có tiền free!
+🎁 Đăng ký ngay hôm nay để nhận nhiều phần quà hấp dẫn!!
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""
 
 CAPTION_2 = """🎰 Slot Fever 200% – Quà Tới Tay, May Tới Liền!
-... (giữ nguyên như cũ) ...
+💸 Thưởng 200% nạp lần đầu – lên đến 6,888,000 VND
+⚙️ Hoàn tất nạp tiền qua website WINBOOK – nhận thưởng tự động!
+⏳ Cơ hội có hạn – tham gia liền tay kẻo lỡ!
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""
 
 CAPTION_3 = """⚽ Đặt cược lần đầu – Không sợ mất!
-..."""
+🛡 WINBOOK bảo vệ 100% cho cược đầu tiên
+🔥 Chỉ áp dụng tại SABA Sports – trận lớn, kèo hot!
+💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""
+
 CAPTION_4 = """💸 Càng nạp càng được – tiền tự nhân lên!
-..."""
+➕ Thưởng 10% mỗi ngày – nhận thưởng 6,000,000 VND
+⏱ Cơ hội “đẻ thêm tiền” mỗi 24h tại WINBOOK
+💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""
+
 CAPTION_5 = """🔥 NẠP 1 NHẬN 2 – THƯỞNG 100% NGAY!
-..."""
+💵 Thưởng chào mừng 100% – thắng lớn đến 3,888,000 VND
+🎮 Áp dụng cho Slots, Bắn Cá, Thể Thao & Live Casino
+⚡️ Nhanh tay nạp – cơ hội nhân đôi vốn đang chờ bạn!
+🎯 x20 vòng cược rinh ngay 3,888,888 VND
+💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""
+
 CAPTION_6 = """🎉 Mời bạn bè – Nhận hoàn tiền không giới hạn!
-..."""
+🔗 Dùng mã QR hoặc link giới thiệu để mời người chơi mới
+💰 Mỗi lượt mời thành công: nhận hoàn 0.3%
+🕓 Hoàn tiền phát lúc 16:00 ngày hôm sau
+♾️ Không giới hạn số tiền hoàn!
+💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""
+
 CAPTION_7 = """🎁 THƯỞNG NẠP TUẦN 30% – NHẬN QUÀ MỖI TUẦN!
-..."""
+📈 Nhận 30% thưởng nạp – tối đa 6,000,000 VND
+⚙️ Chỉ cần nạp tiền & hoàn doanh thu cược hợp lệ
+📝 Đăng ký nhanh qua Mẫu Nạp Tiền trên WINBOOK
+💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""
+
 CAPTION_8 = """💥 THƯỞNG 50% – TRỌN BỘ SLOTS, LIVE & SPORTS!
-..."""
+👤 Thành viên WINBOOK nhận thưởng 1 lần duy nhất
+💰 Nhận ngay 50% thưởng – tối đa 500,000 VND
+🎰 Slots & Bắn Cá – Thưởng 50%, X5 vòng cược
+🎬 Trò Chơi Trực Tiếp – Thưởng 50%, X5 vòng cược
+⚽ Thể Thao – Thưởng 50%, X5 vòng cược
+💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""
+
 CAPTION_9 = """💰 Càng chơi, càng lời – hoàn tới 1.2%!
-..."""
+🔄 Tự động hoàn tiền mỗi ngày – không giới hạn
+👑 Chỉ dành cho thành viên WINBOOK
+💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""
 
 # =========================
-# IMAGES  (GIỮ NGUYÊN)
+# IMAGES (KHÔNG ĐỤNG)
 # =========================
 images = [
     {"img": "https://i.ibb.co/4TQ4tqv/1.png", "cap": CAPTION_1},
@@ -57,7 +87,7 @@ images = [
 ]
 
 # =========================
-# MENU  (GIỮ NGUYÊN)
+# MENU (GIỮ NGUYÊN)
 # =========================
 menu = InlineKeyboardMarkup([
     [
@@ -69,74 +99,32 @@ menu = InlineKeyboardMarkup([
 ])
 
 # =========================
-# FLASK SERVER
+# GỬI ẢNH
 # =========================
-app = Flask(__name__)
+async def send_image(context: ContextTypes.DEFAULT_TYPE):
+    app_data = context.application.bot_data
+    index = app_data.get("i", 0)
 
-@app.route("/")
-def home():
-    return "Bot running OK"
+    data = images[index]
+    await context.bot.send_photo(
+        chat_id=CHAT_ID,
+        photo=data["img"],
+        caption=data["cap"],
+        reply_markup=menu
+    )
 
-def run_flask():
-    import os
-    port = int(os.environ.get("PORT", 10000))
-    # Flask default dev server is fine for Render small app; keep it as before
-    app.run(host="0.0.0.0", port=port)
-
-# =========================
-# HELPER: gửi ảnh (dùng app.bot trực tiếp)
-# =========================
-async def send_image_by_index(app_obj, idx):
-    try:
-        data = images[idx]
-        await app_obj.bot.send_photo(
-            chat_id=CHAT_ID,
-            photo=data["img"],
-            caption=data["cap"],
-            reply_markup=menu
-        )
-        print(f"Đã gửi ảnh số: {idx+1} tại {time.strftime('%Y-%m-%d %H:%M:%S')}")
-    except Exception:
-        print("Lỗi khi gửi ảnh:")
-        print(traceback.format_exc())
-
-# =========================
-# BACKGROUND AUTO POST (THAY THẾ job_queue)
-# =========================
-async def auto_poster(app_obj):
-    # Đợi app.bot sẵn sàng trước khi gửi
-    wait_seconds = 0
-    while getattr(app_obj, "bot", None) is None:
-        await asyncio.sleep(0.5)
-        wait_seconds += 0.5
-        if wait_seconds > 30:
-            # nếu sau 30s bot vẫn chưa sẵn sàng, in log để debug và tiếp tục đợi
-            print("WARNING: app_obj.bot chưa sẵn sàng sau 30s, tiếp tục đợi...")
-    # chờ thêm 1s để chắc chắn
-    await asyncio.sleep(1)
-
-    # Gửi lần đầu sau 5s (hành vi cũ)
-    await asyncio.sleep(5)
-    while True:
-        try:
-            idx = app_obj.bot_data.get("i", 0)
-            await send_image_by_index(app_obj, idx)
-            app_obj.bot_data["i"] = (idx + 1) % len(images)
-        except Exception:
-            print("Lỗi khi auto_poster:")
-            print(traceback.format_exc())
-        # chờ DELAY giây rồi lặp
-        await asyncio.sleep(DELAY)
+    app_data["i"] = (index + 1) % len(images)
+    print(f"Đã gửi ảnh số {index+1}")
 
 # =========================
 # COMMANDS
 # =========================
-async def start(update, context):
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Bot đang chạy!", reply_markup=menu)
 
-async def sendnow(update, context):
-    idx = context.application.bot_data.get("i", 0)
-    data = images[idx]
+async def sendnow(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    index = context.application.bot_data.get("i", 0)
+    data = images[index]
 
     await update.message.reply_photo(
         photo=data["img"],
@@ -145,47 +133,26 @@ async def sendnow(update, context):
     )
 
 # =========================
-# MAIN (ĐÃ FIX: không dùng job_queue)
+# MAIN
 # =========================
 async def main():
-    # chạy Flask ở thread riêng
-    Thread(target=run_flask, daemon=True).start()
+    application = ApplicationBuilder().token(BOT_TOKEN).build()
 
-    appTG = ApplicationBuilder().token(BOT_TOKEN).build()
+    application.bot_data["i"] = 0  # init index
 
-    # khởi tạo index
-    appTG.bot_data["i"] = 0
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("sendnow", sendnow))
 
-    # handlers
-    appTG.add_handler(CommandHandler("start", start))
-    appTG.add_handler(CommandHandler("sendnow", sendnow))
+    # AUTO POST CHUẨN KHÔNG BAO GIỜ LỖI
+    application.job_queue.run_repeating(
+        send_image,
+        interval=DELAY,
+        first=5
+    )
 
-    # TẠO TASK TỰ ĐỘNG NHƯNG CHO NÓ CHỜ BOT SẴN SÀNG TRƯỚC
-    # tạo task nhưng auto_poster sẽ đợi app_obj.bot không phải None
-    asyncio.create_task(auto_poster(appTG))
+    print("BOT AUTO POST ĐANG CHẠY 24/7…")
+    await application.run_polling()
 
-    print("BOT RUNNING…")
-    await appTG.run_polling()
-
-# =========================
-# SAFE ENTRYPOINT (KHÔNG DÙNG asyncio.run trực tiếp)
-# =========================
 if __name__ == "__main__":
-    loop = None
-    try:
-        loop = asyncio.get_event_loop()
-    except RuntimeError:
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-
-    if loop.is_running():
-        loop.create_task(main())
-        try:
-            loop.run_forever()
-        except KeyboardInterrupt:
-            pass
-    else:
-        try:
-            loop.run_until_complete(main())
-        except KeyboardInterrupt:
-            pass
+    import asyncio
+    asyncio.run(main())

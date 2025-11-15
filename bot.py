@@ -10,7 +10,7 @@ import os
 # CONFIG
 # =========================
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHAT_ID = -10029801886562
+CHANNEL_ID = "@WinbookEvent"
 DELAY = 120  # giây
 
 # =========================

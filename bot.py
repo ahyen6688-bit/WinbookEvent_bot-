@@ -82,7 +82,7 @@ menu_keyboard = InlineKeyboardMarkup([
         # Chuyển WebApp button thành callback + link dự phòng để tránh lỗi
         InlineKeyboardButton(
             "🖥 MENU HỆ THỐNG CHÍNH THỨC - HỖ TRỢ 24/7",
-            url="https://ahyen6688-bit.github.io/winbookmenuhotro-/"  # fallback URL
+            web_app=WebAppInfo(url="https://ahyen6688-bit.github.io/winbookmenuhotro-/")
         )
     ]
 ])

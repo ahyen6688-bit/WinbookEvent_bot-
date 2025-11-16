@@ -81,7 +81,7 @@ menu_keyboard = InlineKeyboardMarkup([
     [
         InlineKeyboardButton(
             "🖥 MENU HỆ THỐNG CHÍNH THỨC - HỖ TRỢ 24/7",
-            url="https://ahyen6688-bit.github.io/winbookmenuhotro-/"
+            url="https://tinyurl.com/hethongwinbookhotro"
         )
     ]
 ])

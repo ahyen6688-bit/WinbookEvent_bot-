@@ -96,45 +96,24 @@ current_index = 0
 app = Flask(__name__)
 
 # ========================= FUNCTIONS ============================
-import asyncio
-import logging
-
-# Giả sử bạn đã có:
-# CAPTIONS = [("img1.jpg", "Caption 1"), ..., ("img9.jpg", "Caption 9")]
-# current_index = 0
-# post_loop_running = False
-
 async def post_image_loop():
-    global current_index, post_loop_running
-
-    if post_loop_running:
-        return  # Nếu đã chạy → không chạy thêm
-    post_loop_running = True
-    
-    total_images = len(CAPTIONS)
-    
+    global current_index
     while True:
         img, cap = CAPTIONS[current_index]
-
         try:
-            with open(img, "rb") as photo:
-                await bot.send_photo(
-                    chat_id=CHANNEL_ID,
-                    photo=photo,
-                    caption=cap,
-                    reply_markup=menu_keyboard
-                )
+            await bot.send_photo(
+                chat_id=CHANNEL_ID,
+                photo=open(img, "rb"),
+                caption=cap,
+                reply_markup=menu_keyboard
+            )
             logging.info(f"Đã đăng hình số {current_index + 1}")
-
         except Exception as e:
-            logging.error(f"Lỗi khi gửi hình {current_index + 1}: {e}")
+            logging.error(f"Lỗi khi gửi: {e}")
 
-        # Tăng index tuần tự và quay lại đầu khi tới cuối
-        current_index += 1
-        if current_index >= total_images:
-            current_index = 0  # Quay lại hình số 1
+        # TĂNG INDEX NẰM Ở NGOÀI TRY
+        current_index = (current_index + 1) % len(CAPTIONS)
 
-        # Delay 2 phút
         await asyncio.sleep(120)
 
 # Commands

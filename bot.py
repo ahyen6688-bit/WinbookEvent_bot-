@@ -97,7 +97,12 @@ app = Flask(__name__)
 
 # ========================= FUNCTIONS ============================
 async def post_image_loop():
-    global current_index
+    global current_index, post_loop_running
+
+    if post_loop_running:
+        return  # Đã chạy rồi → KHÔNG cho chạy thêm
+    post_loop_running = True
+    
     while True:
         img, cap = CAPTIONS[current_index]
         try:

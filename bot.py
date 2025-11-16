@@ -16,49 +16,57 @@ CHANNEL_ID = -1002980186562
 
 # ========================= CAPTIONS ============================
 CAPTIONS = [
-    ("https://i.ibb.co/4TQ4tqv/1.png", """💎 ĐĂNG KÝ NHẬN 68K – NHẬN NGAY 500K!
+    ("images/1.jpg", """💎 ĐĂNG KÝ NHẬN 68K – NHẬN NGAY 500K!
 🪄 Chỉ cần xác minh thông tin cá nhân – nhận tiền liền tay 💰
 ⚡️ Nhanh tay tham gia – đừng bỏ lỡ cơ hội có tiền free!
 🎁 Đăng ký ngay hôm nay để nhận nhiều phần quà hấp dẫn!!
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
-    ("https://i.ibb.co/cQk9bnM/2.png", """🎰 Slot Fever 200% – Quà Tới Tay, May Tới Liền!
+    
+    ("images/2.jpg", """🎰 Slot Fever 200% – Quà Tới Tay, May Tới Liền!
 💸 Thưởng 200% nạp lần đầu – lên đến 6,888,000 VND
 ⚙️ Hoàn tất nạp tiền qua website WINBOOK – nhận thưởng tự động!
 ⏳ Cơ hội có hạn – tham gia liền tay kẻo lỡ!
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
-    ("https://i.ibb.co/Km0gPqt/3.png", """⚽ Đặt cược lần đầu – Không sợ mất!
-🛡 WINBOOK bảo vệ 100% cho cược đầu tiên
-🔥 Chỉ áp dụng tại SABA Sports – trận lớn, kèo hot!
-💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
-    ("https://i.ibb.co/tHq50fr/4.png", """💸 Càng nạp càng được – tiền tự nhân lên!
-➕ Thưởng 10% mỗi ngày – nhận thưởng 6,000,000 VND
-⏱ Cơ hội “đẻ thêm tiền” mỗi 24h tại WINBOOK
-💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
-    ("https://i.ibb.co/mGdq8Lv/5.png", """🔥 NẠP 1 NHẬN 2 – THƯỞNG 100% NGAY!
+    
+   ("images/5.jpg", """🔥 NẠP 1 NHẬN 2 – THƯỞNG 100% NGAY!
 💵 Thưởng chào mừng 100% – thắng lớn đến 3,888,000 VND
 🎮 Áp dụng cho Slots, Bắn Cá, Thể Thao & Live Casino
 ⚡️ Nhanh tay nạp – cơ hội nhân đôi vốn đang chờ bạn!
 🎯 x20 vòng cược rinh ngay 3,888,888 VND
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
-    ("https://i.ibb.co/NYQg4gw/6.png", """🎉 Mời bạn bè – Nhận hoàn tiền không giới hạn!
+    
+    ("images/4.jpg", """💸 Càng nạp càng được – tiền tự nhân lên!
+➕ Thưởng 10% mỗi ngày – nhận thưởng 6,000,000 VND
+⏱ Cơ hội “đẻ thêm tiền” mỗi 24h tại WINBOOK
+💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
+    
+    ("images/3.jpg", """⚽ Đặt cược lần đầu – Không sợ mất!
+🛡 WINBOOK bảo vệ 100% cho cược đầu tiên
+🔥 Chỉ áp dụng tại SABA Sports – trận lớn, kèo hot!
+💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
+    
+    ("images/6.jpg", """🎉 Mời bạn bè – Nhận hoàn tiền không giới hạn!
 🔗 Dùng mã QR hoặc link giới thiệu để mời người chơi mới
 💰 Mỗi lượt mời thành công: nhận hoàn 0.3%
 🕓 Hoàn tiền phát lúc 16:00 ngày hôm sau
 ♾️ Không giới hạn số tiền hoàn!
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
-    ("https://i.ibb.co/h1WhW33/7.png", """🎁 THƯỞNG NẠP TUẦN 30% – NHẬN QUÀ MỖI TUẦN!
+    
+    ("images/7.jpg", """🎁 THƯỞNG NẠP TUẦN 30% – NHẬN QUÀ MỖI TUẦN!
 📈 Nhận 30% thưởng nạp – tối đa 6,000,000 VND
 ⚙️ Chỉ cần nạp tiền & hoàn doanh thu cược hợp lệ
 📝 Đăng ký nhanh qua Mẫu Nạp Tiền trên WINBOOK
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
-    ("https://i.ibb.co/tMr6cM2/8.png", """💥 THƯỞNG 50% – TRỌN BỘ SLOTS, LIVE & SPORTS!
+    
+    ("images/8.jpg", """💥 THƯỞNG 50% – TRỌN BỘ SLOTS, LIVE & SPORTS!
 👤 Thành viên WINBOOK nhận thưởng 1 lần duy nhất
 💰 Nhận ngay 50% thưởng – tối đa 500,000 VND
 🎰 Slots & Bắn Cá – Thưởng 50%, X5 vòng cược
 🎬 Trò Chơi Trực Tiếp – Thưởng 50%, X5 vòng cược
 ⚽ Thể Thao – Thưởng 50%, X5 vòng cược
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
-    ("https://i.ibb.co/4SQ2Fvm/9.png", """💰 Càng chơi, càng lời – hoàn tới 1.2%!
+    
+    ("images/9.jpg", """💰 Càng chơi càng lời – hoàn tới 1.2%!
 🔄 Tự động hoàn tiền mỗi ngày – không giới hạn
 👑 Chỉ dành cho thành viên WINBOOK
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
@@ -95,7 +103,7 @@ async def post_image_loop():
         try:
             await bot.send_photo(
                 chat_id=CHANNEL_ID,
-                photo=img,
+                photo=open(img, "rb"),
                 caption=cap,
                 reply_markup=menu_keyboard
             )

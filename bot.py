@@ -112,6 +112,8 @@ async def post_image_loop():
         # TĂNG INDEX NẰM Ở NGOÀI TRY
         current_index = (current_index + 1) % len(CAPTIONS)
 
+        save_index(current_index)
+
         await asyncio.sleep(120)
 
 # Commands

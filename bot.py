@@ -107,25 +107,43 @@ async def post_image_loop():
                 caption=cap,
                 reply_markup=menu_keyboard
             )
-            logging.info(f"Đã đăng hình số {current_index+1}")
-            current_index = (current_index + 1) % len(CAPTIONS)
+            logging.info(f"Đã đăng hình số {current_index + 1}")
         except Exception as e:
             logging.error(f"Lỗi khi gửi: {e}")
-        await asyncio.sleep(3600)
+
+        # TĂNG INDEX NẰM Ở NGOÀI TRY
+        current_index = (current_index + 1) % len(CAPTIONS)
+
+        await asyncio.sleep(120)
 
 # Commands
 async def start(update, context):
-    await update.message.reply_text("Bot đang hoạt động bình thường!")
+    text = (
+        "🤖 *Bot WinbookEvent đang hoạt động!*\n"
+        "💚 Auto-post đang chạy.\n\n"
+        "Bạn có thể dùng các lệnh:\n"
+        "• /sendnow – Gửi ngay bài kế tiếp\n"
+        "• /start – Kiểm tra trạng thái bot\n"
+    )
+
+    await update.message.reply_text(
+        text,
+        parse_mode="Markdown",
+        reply_markup=menu_keyboard
+    )
+
 
 async def sendnow(update, context):
     global current_index
     img, cap = CAPTIONS[current_index]
+
     await bot.send_photo(
-        chat_id=update.effective_chat.id,
-        photo=img,
+        chat_id=update.effective_chat.id,    # gửi cho người gọi lệnh
+        photo=open(img, "rb"),
         caption=cap,
         reply_markup=menu_keyboard
     )
+
     current_index = (current_index + 1) % len(CAPTIONS)
 
 application.add_handler(CommandHandler("start", start))

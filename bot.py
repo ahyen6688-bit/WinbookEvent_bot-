@@ -1,9 +1,8 @@
-from telegram import (
-    Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
-)
-from telegram.ext import (
-    ApplicationBuilder, CommandHandler, ContextTypes
-)
+from flask import Flask, request
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
+from telegram.ext import Application, CommandHandler, ContextTypes
+from apscheduler.schedulers.background import BackgroundScheduler
+import requests
 import os
 
 # =========================
@@ -11,10 +10,11 @@ import os
 # =========================
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHANNEL_ID = "@WinbookEvent"
-DELAY = 120  # giây
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")   # https://yourapp.onrender.com/webhook
+DELAY = 120  # mỗi 120 giây gửi 1 ảnh
 
 # =========================
-# CAPTIONS  (GIỮ NGUYÊN 100%)
+# CAPTIONS (GIỮ NGUYÊN 100%)
 # =========================
 CAPTION_1 = """💎 ĐĂNG KÝ NHẬN 68K – NHẬN NGAY 500K!
 🪄 Chỉ cần xác minh thông tin cá nhân – nhận tiền liền tay 💰
@@ -72,7 +72,7 @@ CAPTION_9 = """💰 Càng chơi, càng lời – hoàn tới 1.2%!
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""
 
 # =========================
-# IMAGES (KHÔNG ĐỤNG)
+# IMAGES
 # =========================
 images = [
     {"img": "https://i.ibb.co/4TQ4tqv/1.png", "cap": CAPTION_1},
@@ -99,58 +99,62 @@ menu = InlineKeyboardMarkup([
 ])
 
 # =========================
-# GỬI ẢNH
+# TELEGRAM APP (WEBHOOK)
 # =========================
-async def send_image(context: ContextTypes.DEFAULT_TYPE):
-    app_data = context.application.bot_data
-    index = app_data.get("i", 0)
+bot_app = Application.builder().token(BOT_TOKEN).build()
 
-    data = images[index]
-    await context.bot.send_photo(
-        chat_id=CHANNEL_ID,
-        photo=data["img"],
-        caption=data["cap"],
-        reply_markup=menu
-    )
-
-    app_data["i"] = (index + 1) % len(images)
-    print(f"Đã gửi ảnh số {index+1}")
-
-# =========================
-# COMMANDS
-# =========================
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Bot đang chạy!", reply_markup=menu)
 
-async def sendnow(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    index = context.application.bot_data.get("i", 0)
+bot_app.add_handler(CommandHandler("start", start))
+
+# =========================
+# AUTO POST (SCHEDULER)
+# =========================
+index = 0
+
+def auto_send():
+    global index
     data = images[index]
 
-    await update.message.reply_photo(
-        photo=data["img"],
-        caption=data["cap"],
-        reply_markup=menu
+    requests.get(
+        f"https://api.telegram.org/bot{BOT_TOKEN}/sendPhoto",
+        params={
+            "chat_id": CHANNEL_ID,
+            "photo": data["img"],
+            "caption": data["cap"]
+        }
     )
+    print("Đã gửi:", data["img"])
+    index = (index + 1) % len(images)
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(auto_send, "interval", seconds=DELAY)
+scheduler.start()
 
 # =========================
-# MAIN
+# FLASK SERVER
 # =========================
-def main():
-    application = ApplicationBuilder().token(BOT_TOKEN).build()
+app = Flask(__name__)
 
-    application.bot_data["i"] = 0
+@app.route("/")
+def home():
+    return "BOT OK"
 
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("sendnow", sendnow))
+@app.route("/webhook", methods=["POST"])
+def webhook():
+    update = Update.de_json(request.json, bot_app.bot)
+    bot_app.update_queue.put_nowait(update)
+    return "OK"
 
-    application.job_queue.run_repeating(
-        send_image,
-        interval=DELAY,
-        first=5
-    )
-
-    print("BOT AUTO POST ĐANG CHẠY 24/7…")
-    application.run_polling()
-
+# =========================
+# START APP
+# =========================
 if __name__ == "__main__":
-    main()
+    requests.get(
+        f"https://api.telegram.org/bot{BOT_TOKEN}/setWebhook",
+        params={"url": WEBHOOK_URL}
+    )
+    print("Webhook:", WEBHOOK_URL)
+
+    app.run(host="0.0.0.0", port=8080)

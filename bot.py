@@ -135,18 +135,14 @@ async def sendnow(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # =========================
 # MAIN
 # =========================
-async def main():
+def main():
     application = ApplicationBuilder().token(BOT_TOKEN).build()
-        # bảo đảm bot không còn webhook để gây conflict
-    await application.initialize()
-    await application.bot.delete_webhook(drop_pending_updates=True)
 
-    application.bot_data["i"] = 0  # init index
+    application.bot_data["i"] = 0
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("sendnow", sendnow))
 
-    # AUTO POST CHUẨN KHÔNG BAO GIỜ LỖI
     application.job_queue.run_repeating(
         send_image,
         interval=DELAY,
@@ -154,8 +150,7 @@ async def main():
     )
 
     print("BOT AUTO POST ĐANG CHẠY 24/7…")
-    await application.run_polling()
+    application.run_polling()
 
 if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+    main()

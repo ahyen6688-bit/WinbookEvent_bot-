@@ -101,23 +101,18 @@ async def post_image_loop():
     while True:
         img, cap = CAPTIONS[current_index]
         try:
-            # mở file đúng cách để không bị giữ file và không gửi nhầm lại hình cũ
-            with open(img, "rb") as photo:
-                await bot.send_photo(
-                    chat_id=CHANNEL_ID,
-                    photo=photo,
-                    caption=cap,
-                    reply_markup=menu_keyboard
-                )
-
+            await bot.send_photo(
+                chat_id=CHANNEL_ID,
+                photo=open(img, "rb"),
+                caption=cap,
+                reply_markup=menu_keyboard
+            )
             logging.info(f"Đã đăng hình số {current_index + 1}")
-
         except Exception as e:
             logging.error(f"Lỗi khi gửi: {e}")
 
-        # TĂNG INDEX + LƯU LẠI (để restart không bị gửi lại hình số 1)
+        # TĂNG INDEX NẰM Ở NGOÀI TRY
         current_index = (current_index + 1) % len(CAPTIONS)
-        save_index(current_index)
 
         await asyncio.sleep(120)
 

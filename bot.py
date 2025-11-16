@@ -79,13 +79,13 @@ menu_keyboard = InlineKeyboardMarkup([
         InlineKeyboardButton("💻 Live Chat", url="https://direct.lc.chat/19366399/")
     ],
     [
-        # Chuyển WebApp button thành callback + link dự phòng để tránh lỗi
         InlineKeyboardButton(
             "🖥 MENU HỆ THỐNG CHÍNH THỨC - HỖ TRỢ 24/7",
             web_app=WebAppInfo(url="https://ahyen6688-bit.github.io/winbookmenuhotro-/")
         )
     ]
 ])
+
 
 
 # ========================= INIT =================================

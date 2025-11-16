@@ -107,7 +107,7 @@ async def send_image(context: ContextTypes.DEFAULT_TYPE):
 
     data = images[index]
     await context.bot.send_photo(
-        chat_id=CHAT_ID,
+        chat_id=CHANNEL_ID,
         photo=data["img"],
         caption=data["cap"],
         reply_markup=menu

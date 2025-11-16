@@ -75,8 +75,8 @@ CAPTIONS = [
 # ========================= MENU =================================
 menu_keyboard = InlineKeyboardMarkup([
     [
-        InlineKeyboardButton("Đăng ký", url="https://www.winbook1.com"),
-        InlineKeyboardButton("Live Chat", url="https://direct.lc.chat/19366399/")
+        InlineKeyboardButton("🔰 Đăng ký", url="https://www.winbook1.com"),
+        InlineKeyboardButton("💻 Live Chat", url="https://direct.lc.chat/19366399/")
     ],
     [
         # Chuyển WebApp button thành callback + link dự phòng để tránh lỗi
@@ -139,14 +139,11 @@ def home():
 # ========================= MAIN =================================
 import threading
 
-# Run Flask in a separate thread
+# Run Flask in a separate thread (để Render giữ bot sống)
 threading.Thread(target=lambda: app.run(host="0.0.0.0", port=10000), daemon=True).start()
 
-# Run main async bot
 async def main_async():
-    await application.initialize()
-    await application.start()
-    asyncio.create_task(post_image_loop())
-    await asyncio.Event().wait()
+    asyncio.create_task(post_image_loop())  # gửi hình tự động
+    await application.run_polling()         # nhận lệnh /start, /sendnow
 
 asyncio.run(main_async())

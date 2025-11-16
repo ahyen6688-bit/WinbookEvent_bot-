@@ -28,11 +28,9 @@ CAPTIONS = [
 ⏳ Cơ hội có hạn – tham gia liền tay kẻo lỡ!
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
     
-   ("images/5.jpg", """🔥 NẠP 1 NHẬN 2 – THƯỞNG 100% NGAY!
-💵 Thưởng chào mừng 100% – thắng lớn đến 3,888,000 VND
-🎮 Áp dụng cho Slots, Bắn Cá, Thể Thao & Live Casino
-⚡️ Nhanh tay nạp – cơ hội nhân đôi vốn đang chờ bạn!
-🎯 x20 vòng cược rinh ngay 3,888,888 VND
+   ("images/3.jpg", """💸 Càng nạp càng được – tiền tự nhân lên!
+➕ Thưởng 10% mỗi ngày – nhận thưởng 6,000,000 VND
+⏱ Cơ hội “đẻ thêm tiền” mỗi 24h tại WINBOOK
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
     
     ("images/4.jpg", """💸 Càng nạp càng được – tiền tự nhân lên!
@@ -40,9 +38,9 @@ CAPTIONS = [
 ⏱ Cơ hội “đẻ thêm tiền” mỗi 24h tại WINBOOK
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
     
-    ("images/3.jpg", """⚽ Đặt cược lần đầu – Không sợ mất!
-🛡 WINBOOK bảo vệ 100% cho cược đầu tiên
-🔥 Chỉ áp dụng tại SABA Sports – trận lớn, kèo hot!
+    ("images/5.jpg", """💸 Càng nạp càng được – tiền tự nhân lên!
+➕ Thưởng 10% mỗi ngày – nhận thưởng 6,000,000 VND
+⏱ Cơ hội “đẻ thêm tiền” mỗi 24h tại WINBOOK
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
     
     ("images/6.jpg", """🎉 Mời bạn bè – Nhận hoàn tiền không giới hạn!

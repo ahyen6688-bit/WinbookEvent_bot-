@@ -11,8 +11,8 @@ import logging
 nest_asyncio.apply()
 
 # ========================= CONFIG ==============================
-BOT_TOKEN = "YOUR_BOT_TOKEN"
-CHANNEL_ID = "@your_channel_id"  # or -100xxxxxxxxx
+BOT_TOKEN = "8395409278:AAFXw8GMjYQp1DRkFOAkQUFtW0AvqG8GGqM"
+CHANNEL_ID = " @winbookEvent "  # or -100xxxxxxxxx
 
 # Image list with captions
 images = [
@@ -138,18 +138,13 @@ async def post_image_loop():
 if __name__ == "__main__":
     import threading
 
-    # Start Flask in its own thread
-    threading.Thread(target=lambda: app.run(host="0.0.0.0", port=10000), daemon=True).start()
+# Start Flask in thread
+threading.Thread(target=lambda: app.run(host="0.0.0.0", port=10000), daemon=True).start()
 
-    async def main_async():
-        # Start Telegram bot without closing event loop
-        await application.initialize()
-        await application.start()
+async def main_async():
+    await application.initialize()
+    await application.start()
+    asyncio.create_task(post_image_loop())
+    await asyncio.Event().wait()
 
-        # Start auto-post task
-        asyncio.create_task(post_image_loop())
-
-        # Keep running forever
-        await asyncio.Event().wait()
-
-    asyncio.run(main_async())
+asyncio.run(main_async)(main_async())

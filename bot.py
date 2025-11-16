@@ -8,9 +8,9 @@ import os
 # =========================
 # CONFIG
 # =========================
-BOT_TOKEN = os.getenv("8395409278:AAFXw8GMjYQp1DRkFOAkQUFtW0AvqG8GGqM")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHANNEL_ID = "@WinbookEvent"
-WEBHOOK_URL = os.getenv("https://winbookevent-bot1.onrender.com")   # https://yourapp.onrender.com/webhook
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 DELAY = 120  # mỗi 120 giây gửi 1 ảnh
 
 # =========================

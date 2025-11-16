@@ -81,12 +81,10 @@ menu_keyboard = InlineKeyboardMarkup([
     [
         InlineKeyboardButton(
             "🖥 MENU HỆ THỐNG CHÍNH THỨC - HỖ TRỢ 24/7",
-            web_app=WebAppInfo(url="https://ahyen6688-bit.github.io/winbookmenuhotro-/")
+            url="https://ahyen6688-bit.github.io/winbookmenuhotro-/"
         )
     ]
 ])
-
-
 
 # ========================= INIT =================================
 logging.basicConfig(level=logging.INFO)

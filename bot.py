@@ -4,8 +4,8 @@
 import asyncio
 import nest_asyncio
 import logging
-from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
-from telegram.ext import Application, CommandHandler
+from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, Update
+from telegram.ext import Application, CommandHandler, ContextTypes
 from flask import Flask
 
 nest_asyncio.apply()
@@ -28,7 +28,7 @@ CAPTIONS = [
 ⏳ Cơ hội có hạn – tham gia liền tay kẻo lỡ!
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
     
-   ("images/3.jpg", """🔥 NẠP 1 NHẬN 2 – THƯỞNG 100% NGAY!
+    ("images/3.jpg", """🔥 NẠP 1 NHẬN 2 – THƯỞNG 100% NGAY!
  💵 Thưởng chào mừng 100% – thắng lớn đến 3,888,000 VND
  🎮 Áp dụng cho Slots, Bắn Cá, Thể Thao & Live Casino 
 ⚡️ Nhanh tay nạp – cơ hội nhân đôi vốn đang chờ bạn!
@@ -73,6 +73,25 @@ CAPTIONS = [
 ]
 
 # ========================= MENU =================================
+# BẠN KHÔNG VIẾT NHƯNG BẮT BUỘC PHẢI CÓ để bot không lỗi !!!
+menu_keyboard = InlineKeyboardMarkup([
+    [
+        InlineKeyboardButton("🔰 Đăng ký", url="https://www.winbook1.com"),
+        InlineKeyboardButton("💬 Live Chat", url="https://direct.lc.chat/19366399/")
+    ],
+    [
+        InlineKeyboardButton("👩‍💼 CSKH001", url="https://t.me/WinbookCSKH001"),
+        InlineKeyboardButton("👨‍💼 CSKH002", url="https://t.me/WinbookCSKH002")
+    ],
+    [
+        InlineKeyboardButton("📢 Kênh Chính", url="https://t.me/WinbookEvent"),
+        InlineKeyboardButton("💭 Nhóm Chat", url="https://t.me/winbook8888")
+    ],
+    [
+        InlineKeyboardButton("🌐 FANPAGE CHÍNH", url="https://www.facebook.com/profile.php?id=100076695622884")
+    ]
+])
+
 async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for member in update.message.new_chat_members:
         chat_id = update.message.chat_id
@@ -94,7 +113,10 @@ async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 InlineKeyboardButton("🌐 FANPAGE CHÍNH", url="https://www.facebook.com/profile.php?id=100076695622884")
             ]
         ]
+
         reply_markup = InlineKeyboardMarkup(keyboard)
+        # (Bạn không muốn gửi nên giữ nguyên)
+
 # ========================= INIT =================================
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=BOT_TOKEN)
@@ -118,7 +140,6 @@ async def post_image_loop():
         except Exception as e:
             logging.error(f"Lỗi khi gửi: {e}")
 
-        # TĂNG INDEX NẰM Ở NGOÀI TRY
         current_index = (current_index + 1) % len(CAPTIONS)
 
         await asyncio.sleep(120)
@@ -139,13 +160,12 @@ async def start(update, context):
         reply_markup=menu_keyboard
     )
 
-
 async def sendnow(update, context):
     global current_index
     img, cap = CAPTIONS[current_index]
 
     await bot.send_photo(
-        chat_id=update.effective_chat.id,    # gửi cho người gọi lệnh
+        chat_id=update.effective_chat.id,
         photo=open(img, "rb"),
         caption=cap,
         reply_markup=menu_keyboard
@@ -164,11 +184,10 @@ def home():
 # ========================= MAIN =================================
 import threading
 
-# Run Flask in a separate thread (để Render giữ bot sống)
 threading.Thread(target=lambda: app.run(host="0.0.0.0", port=10000), daemon=True).start()
 
 async def main_async():
-    asyncio.create_task(post_image_loop())  # gửi hình tự động
-    await application.run_polling()         # nhận lệnh /start, /sendnow
+    asyncio.create_task(post_image_loop())
+    await application.run_polling()
 
 asyncio.run(main_async())

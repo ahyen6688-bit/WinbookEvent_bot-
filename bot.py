@@ -159,11 +159,11 @@ async def sendnow(update, context):
         reply_markup=menu_keyboard
     )
 
+    # Tăng index
     if current_index == len(CAPTIONS) - 1:
-        current_index = 0      # ✔ Thụt vào 4 spaces
-else:
-    current_index += 1
-
+        current_index = 0
+    else:
+        current_index += 1
 
 application.add_handler(CommandHandler("start", start))
 application.add_handler(CommandHandler("sendnow", sendnow))

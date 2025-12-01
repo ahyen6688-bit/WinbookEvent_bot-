@@ -100,23 +100,22 @@ app = Flask(__name__)
 
 # ========================= FUNCTIONS ============================
 async def post_image_loop():
-    global current_index
+    global auto_index
     while True:
-        img, cap = CAPTIONS[current_index]
+        img, cap = CAPTIONS[auto_index]
         try:
-            await bot.send_photo(
-                chat_id=CHANNEL_ID,
-                photo=open(img, "rb"),
-                caption=cap,
-                reply_markup=menu_keyboard
-            )
-            logging.info(f"Đã đăng hình số {current_index + 1}")
+            with open(img, "rb") as photo:
+                await bot.send_photo(
+                    chat_id=CHANNEL_ID,
+                    photo=photo,
+                    caption=cap,
+                    reply_markup=menu_keyboard
+                )
+            logging.info(f"Auto-post hình số {auto_index + 1}")
         except Exception as e:
-            logging.error(f"Lỗi khi gửi: {e}")
+            logging.error(f"Lỗi gửi auto-post: {e}")
 
-        # TĂNG INDEX NẰM Ở NGOÀI TRY
-        current_index = (current_index + 1) % len(CAPTIONS)
-
+        auto_index = (auto_index + 1) % len(CAPTIONS)
         await asyncio.sleep(120)
 
 # Commands

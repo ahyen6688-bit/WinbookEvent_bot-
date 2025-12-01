@@ -95,39 +95,28 @@ menu_keyboard = InlineKeyboardMarkup([
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=BOT_TOKEN)
 application = Application.builder().token(BOT_TOKEN).build()
-
 current_index = 0
-direction = 1
-INDEX_FILE = "index.txt"
-
 app = Flask(__name__)
 
 # ========================= FUNCTIONS ============================
 async def post_image_loop():
     global current_index
-
-    current_index = load_index()
-
     while True:
         img, cap = CAPTIONS[current_index]
-
         try:
-          await bot.send_photo(
-                    chat_id=CHANNEL_ID,
-                    photo=f,
-                    caption=cap,
-                    reply_markup=menu_keyboard
-                )
-            logging.info(f"Đã gửi hình số {current_index + 1}")
+            await bot.send_photo(
+                chat_id=CHANNEL_ID,
+                photo=open(img, "rb"),
+                caption=cap,
+                reply_markup=menu_keyboard
+            )
+            logging.info(f"Đã đăng hình số {current_index + 1}")
         except Exception as e:
             logging.error(f"Lỗi khi gửi: {e}")
 
-        # Tăng index
+        # TĂNG INDEX NẰM Ở NGOÀI TRY
         current_index = (current_index + 1) % len(CAPTIONS)
 
-        save_index()
-
-        # 👉 CHẠY LẠI SAU 1 TIẾNG
         await asyncio.sleep(3600)
 
 # Commands
@@ -158,11 +147,7 @@ async def sendnow(update, context):
         reply_markup=menu_keyboard
     )
 
-    # Tăng index
-    if current_index == len(CAPTIONS) - 1:
-        current_index = 0
-    else:
-        current_index += 1
+    current_index = (current_index + 1) % len(CAPTIONS)
 
 application.add_handler(CommandHandler("start", start))
 application.add_handler(CommandHandler("sendnow", sendnow))

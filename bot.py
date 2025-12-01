@@ -131,7 +131,7 @@ async def post_image_loop():
             current_index += 1
 
         save_index()
-        await asyncio.sleep(120)
+        await asyncio.sleep(3600)
 
 # Commands
 async def start(update, context):

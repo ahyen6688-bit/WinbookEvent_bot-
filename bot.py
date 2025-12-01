@@ -73,14 +73,18 @@ CAPTIONS = [
 ]
 
 # ========================= MENU =================================
-menu_keyboard = InlineKeyboardMarkup([
-    [
+async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    for member in update.message.new_chat_members:
+        chat_id = update.message.chat_id
+
+        keyboard = [
+            [
                 InlineKeyboardButton("🔰 Đăng ký", url="https://www.winbook1.com"),
                 InlineKeyboardButton("💬 Live Chat", url="https://direct.lc.chat/19366399/")
             ],
             [
-                InlineKeyboardButton("👩‍💼 TELE CSKH 001", url="https://t.me/WinbookCSKH001"),
-                InlineKeyboardButton("👨‍💼 TELE CSKH 002", url="https://t.me/WinbookCSKH002")
+                InlineKeyboardButton("👩‍💼 CSKH001", url="https://t.me/WinbookCSKH001"),
+                InlineKeyboardButton("👨‍💼 CSKH002", url="https://t.me/WinbookCSKH002")
             ],
             [
                 InlineKeyboardButton("📢 Kênh Chính", url="https://t.me/WinbookEvent"),
@@ -90,7 +94,7 @@ menu_keyboard = InlineKeyboardMarkup([
                 InlineKeyboardButton("🌐 FANPAGE CHÍNH", url="https://www.facebook.com/profile.php?id=100076695622884")
             ]
         ]
-
+        reply_markup = InlineKeyboardMarkup(keyboard)
 # ========================= INIT =================================
 logging.basicConfig(level=logging.INFO)
 bot = Bot(token=BOT_TOKEN)

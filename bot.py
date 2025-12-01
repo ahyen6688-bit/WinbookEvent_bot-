@@ -75,7 +75,7 @@ CAPTIONS = [
 # ========================= MENU =================================
 menu_keyboard = InlineKeyboardMarkup([
     [
-        InlineKeyboardButton("🔰 Đăng ký", url="https://www.winbook1.com"),
+        InlineKeyboardButton("🔰 Đăng ký NHẬN 68K", url="https://www.winbook1.com"),
         InlineKeyboardButton("💬 Live Chat", url="https://direct.lc.chat/19366399/")
     ],
     [

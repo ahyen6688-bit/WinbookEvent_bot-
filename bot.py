@@ -75,16 +75,21 @@ CAPTIONS = [
 # ========================= MENU =================================
 menu_keyboard = InlineKeyboardMarkup([
     [
-        InlineKeyboardButton("🔰 Đăng ký", url="https://www.winbook1.com"),
-        InlineKeyboardButton("💻 Live Chat", url="https://direct.lc.chat/19366399/")
-    ],
-    [
-        InlineKeyboardButton(
-            "🖥 MENU HỆ THỐNG CHÍNH THỨC - HỖ TRỢ 24/7",
-            url="https://tinyurl.com/hethongwinbookhotro"
-        )
-    ]
-])
+                InlineKeyboardButton("🔰 Đăng ký", url="https://www.winbook1.com"),
+                InlineKeyboardButton("💬 Live Chat", url="https://direct.lc.chat/19366399/")
+            ],
+            [
+                InlineKeyboardButton("👩‍💼 TELE CSKH 001", url="https://t.me/WinbookCSKH001"),
+                InlineKeyboardButton("👨‍💼 TELE CSKH 002", url="https://t.me/WinbookCSKH002")
+            ],
+            [
+                InlineKeyboardButton("📢 Kênh Chính", url="https://t.me/WinbookEvent"),
+                InlineKeyboardButton("💭 Nhóm Chat", url="https://t.me/winbook8888")
+            ],
+            [
+                InlineKeyboardButton("🌐 FANPAGE CHÍNH", url="https://www.facebook.com/profile.php?id=100076695622884")
+            ]
+        ]
 
 # ========================= INIT =================================
 logging.basicConfig(level=logging.INFO)

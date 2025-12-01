@@ -112,8 +112,7 @@ async def post_image_loop():
         img, cap = CAPTIONS[current_index]
 
         try:
-            with open(img, "rb") as f:
-                await bot.send_photo(
+          await bot.send_photo(
                     chat_id=CHANNEL_ID,
                     photo=f,
                     caption=cap,

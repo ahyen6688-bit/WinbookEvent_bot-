@@ -112,25 +112,23 @@ async def post_image_loop():
         img, cap = CAPTIONS[current_index]
 
         try:
-            await bot.send_photo(
-                chat_id=CHANNEL_ID,
-                photo=open(img, "rb"),
-                caption=cap,
-                reply_markup=menu_keyboard
-            )
+            with open(img, "rb") as f:
+                await bot.send_photo(
+                    chat_id=CHANNEL_ID,
+                    photo=f,
+                    caption=cap,
+                    reply_markup=menu_keyboard
+                )
             logging.info(f"Đã gửi hình số {current_index + 1}")
         except Exception as e:
             logging.error(f"Lỗi khi gửi: {e}")
 
-        # 🔥 LOGIC CHÍNH:
-        # Nếu đang ở số 9 → quay về số 1
-        # Còn lại thì tăng bình thường
-        if current_index == len(CAPTIONS) - 1:
-            current_index = 0
-        else:
-            current_index += 1
+        # Tăng index
+        current_index = (current_index + 1) % len(CAPTIONS)
 
         save_index()
+
+        # 👉 CHẠY LẠI SAU 1 TIẾNG
         await asyncio.sleep(3600)
 
 # Commands

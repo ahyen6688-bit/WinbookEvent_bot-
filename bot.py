@@ -17,15 +17,15 @@ CHANNEL_ID = -1002980186562
 # ========================= CAPTIONS ============================
 CAPTIONS = [
     ("images/1.jpg", """💎 ĐĂNG KÝ NHẬN 68K – NHẬN NGAY 500K!
-🪄 Chỉ cần xác minh thông tin cá nhân – nhận tiền liền tay 💰
-⚡️ Nhanh tay tham gia – đừng bỏ lỡ cơ hội có tiền free!
-🎁 Đăng ký ngay hôm nay để nhận nhiều phần quà hấp dẫn!!
+🪄 Chỉ cần xác minh thông tin cá nhân – nhận tiền liền tay 
+⚡️ Nhanh tay tham gia – đừng bỏ lỡ cơ hội có tiền free
+🎁 Đăng ký ngay hôm nay để nhận nhiều phần quà hấp dẫn
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
     
-    ("images/2.jpg", """🎰 Slot Fever 200% – Quà Tới Tay, May Tới Liền!
+    ("images/2.jpg", """🎰 SLOT FEVER 200% – QUÀ TỚI TAY-MAY TỚI LIỀN !
 💸 Thưởng 200% nạp lần đầu – lên đến 6,888,000 VND
-⚙️ Hoàn tất nạp tiền qua website WINBOOK – nhận thưởng tự động!
-⏳ Cơ hội có hạn – tham gia liền tay kẻo lỡ!
+⚙️ Hoàn tất nạp tiền qua website WINBOOK – nhận thưởng tự động
+⏳ Cơ hội có hạn – tham gia liền tay kẻo lỡ
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
     
    ("images/3.jpg", """🔥 NẠP 1 NHẬN 2 – THƯỞNG 100% NGAY!
@@ -35,17 +35,18 @@ CAPTIONS = [
  🎯 x20 vòng cược rinh ngay 3,888,888 VND 
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
     
-    ("images/4.jpg", """💸 Càng nạp càng được – tiền tự nhân lên!
+    ("images/4.jpg", """💥 NẠP ĐÂU TẶNG ĐÓ – THÊM 10% MỖI NGÀY!!
+💸 Càng nạp càng được – tiền tự nhân lên!   
 ➕ Thưởng 10% mỗi ngày – nhận thưởng 6,000,000 VND
 ⏱ Cơ hội “đẻ thêm tiền” mỗi 24h tại WINBOOK
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
     
-    ("images/5.jpg", """⚽ Đặt cược lần đầu – Không sợ mất! 
-🛡 WINBOOK bảo vệ 100% cho cược đầu tiên 
+    ("images/5.jpg", """⚽ ĐẶT CƯỢC LẦN ĐẦU - KHÔNG SỢ RỦI RO ! 
+🛡 WINBOOK bảo vệ 100% cho vé cược đầu tiên!
 🔥 Chỉ áp dụng tại SABA Sports – trận lớn, kèo hot! 
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
     
-    ("images/6.jpg", """🎉 Mời bạn bè – Nhận hoàn tiền không giới hạn!
+    ("images/6.jpg", """🎉 MỜI BẠN BÈ - NHẬN HOÀN TIỀN KHÔNG GIỚI HẠN ! 
 🔗 Dùng mã QR hoặc link giới thiệu để mời người chơi mới
 💰 Mỗi lượt mời thành công: nhận hoàn 0.3%
 🕓 Hoàn tiền phát lúc 16:00 ngày hôm sau
@@ -66,9 +67,15 @@ CAPTIONS = [
 ⚽ Thể Thao – Thưởng 50%, X5 vòng cược
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
     
-    ("images/9.jpg", """💰 Càng chơi càng lời – hoàn tới 1.2%!
+    ("images/9.jpg", """💰 CÀNG CHƠI CÀNG LỜI -HOÀN TỚI 1,2% !
 🔄 Tự động hoàn tiền mỗi ngày – không giới hạn
 👑 Chỉ dành cho thành viên WINBOOK
+💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
+
+    ("images/10.jpg", """💰 THƯỞNG 5% MỖI NGÀY KHI CHỌN XỔ SỐ !
+ 🎯 Mỗi ngày nhận 5% ngay lập tức 
+⏳ Ưu đãi có hạn – Nhận thưởng mỗi ngày lên đến 1,000 VND
+💰X1 vòng cược nhanh tay chọn số
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
 ]
 
@@ -117,7 +124,7 @@ async def post_image_loop():
         # TĂNG INDEX NẰM Ở NGOÀI TRY
         current_index = (current_index + 1) % len(CAPTIONS)
 
-        await asyncio.sleep(3600)
+        await asyncio.sleep(60)
 
 # Commands
 async def start(update, context):

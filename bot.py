@@ -16,12 +16,7 @@ CHANNEL_ID = -1002980186562
 
 # ========================= CAPTIONS ============================
 CAPTIONS = [
-    ("images/1.jpg", """💎 ĐĂNG KÝ NHẬN 68K – NHẬN NGAY 500K!
-🪄 Chỉ cần xác minh thông tin cá nhân – nhận tiền liền tay 
-⚡️ Nhanh tay tham gia – đừng bỏ lỡ cơ hội có tiền free
-🎁 Đăng ký ngay hôm nay để nhận nhiều phần quà hấp dẫn
-💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
-    
+ 
     ("images/2.jpg", """🎰 SLOT FEVER 200% – QUÀ TỚI TAY-MAY TỚI LIỀN !
 💸 Thưởng 200% nạp lần đầu – lên đến 6,888,000 VND
 ⚙️ Hoàn tất nạp tiền qua website WINBOOK – nhận thưởng tự động

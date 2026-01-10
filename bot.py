@@ -66,12 +66,6 @@ CAPTIONS = [
 🔄 Tự động hoàn tiền mỗi ngày – không giới hạn
 👑 Chỉ dành cho thành viên WINBOOK
 💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
-
-    ("images/10.jpg", """💰 THƯỞNG 5% MỖI NGÀY KHI CHỌN XỔ SỐ !
- 🎯 Mỗi ngày nhận 5% ngay lập tức 
-⏳ Ưu đãi có hạn – Nhận thưởng mỗi ngày lên đến 1,000 VND
-💰X1 vòng cược nhanh tay chọn số
-💬 Liên hệ các kênh bên dưới 👇 để được hỗ trợ nhanh nhất."""),
 ]
 
 # ========================= MENU =================================
